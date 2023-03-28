@@ -1,0 +1,79 @@
+[
+  {
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "publication_date": "1960-07-11",
+    "pages": 281,
+    "genres": ["Novel", "Fiction", "Literary"],
+    "publisher": {
+      "name": "J. B. Lippincott & Co.",
+      "location": "Philadelphia, PA"
+    }
+  },
+  {
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "publication_date": "1813-01-28",
+    "pages": 279,
+    "genres": ["Novel", "Fiction", "Romance"],
+    "publisher": {
+      "name": "Thomas Egerton",
+      "location": "London, UK"
+    }
+  },
+  {
+    "title": "The Catcher in the Rye",
+    "author": "J.D. Salinger",
+    "publication_date": "1951-07-16",
+    "pages": 214,
+    "genres": ["Novel", "Fiction", "Bildungsroman"],
+    "publisher": {
+      "name": "Little, Brown and Company",
+      "location": "Boston, MA"
+    }
+  },
+  {
+    "title": "The Hitchhiker's Guide to the Galaxy",
+    "author": "Douglas Adams",
+    "publication_date": "1979-10-12",
+    "pages": 214,
+    "genres": ["Science fiction", "Comedy", "Adventure"],
+    "publisher": {
+      "name": "Pan Books",
+      "location": "London, UK"
+    }
+  },
+  {
+    "title": "One Hundred Years of Solitude",
+    "author": "Gabriel García Márquez",
+    "publication_date": "1967-06-01",
+    "pages": 417,
+    "genres": ["Novel", "Magic realism"],
+    "publisher": {
+      "name": "Editorial Sudamericana",
+      "location": "Buenos Aires, Argentina"
+    }
+  },
+  {
+    "title": "The Lord of the Rings",
+    "author": "J.R.R. Tolkien",
+    "publication_date": "1954-07-29",
+    "pages": 1178,
+    "genres": ["Fantasy", "Adventure"],
+    "publisher": {
+      "name": "George Allen & Unwin",
+      "location": "London, UK"
+    },
+  },
+  {
+    "title": "The Diary of a Young Girl",
+    "author": "Anne Frank",
+    "publication_date": "1947-06-25",
+    "pages": 267,
+    "genres": ["Autobiography", "Diary"],
+    "publisher": {
+      "name": "Contact Publishing",
+      "location": "Amsterdam, Netherlands"
+    }
+  }
+]
