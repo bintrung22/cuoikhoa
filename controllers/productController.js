@@ -16,9 +16,9 @@ const postProduct = asyncHandle(async (req, res) => {
     descriptionProduct,
     quantityProduct,
     weightProduct,
-    user, 
+    user,
   });
-  console.log("trnug",req.body);
+  console.log("trnug", req.body);
 
   if (product) {
     res
@@ -30,7 +30,7 @@ const postProduct = asyncHandle(async (req, res) => {
         quantityProduct: product.quantityProduct,
         weightProduct: product.weightProduct,
         //user: user
-}      );
+      });
     console.log(req.body);
 
   } else {
@@ -41,51 +41,50 @@ const postProduct = asyncHandle(async (req, res) => {
 
 
 const getProducts = asyncHandle(async (req, res) => {
-    const pageSize = 10;
-    const page = Number(req.query.pageNumber) || 1;
-    const keyword = req.query.keyword;
-    const searchQuery = keyword ? { name: { $regex: keyword } } : {};
-  
-    const totalProduct = await productModel.countDocuments({ ...searchQuery });
-    const products = await productModel
-      .find({ ...searchQuery })
-      .limit(pageSize)
-      .skip(pageSize * (page - 1));
-  
-    res.json({
-      products,
-      totalProduct,
-      page,
-    });
+  const pageSize = 10;
+  const page = Number(req.query.pageNumber) || 1;
+  const keyword = req.query.keyword;
+  const searchQuery = keyword ? { name: { $regex: keyword } } : {};
+
+  const totalProduct = await productModel.countDocuments({ ...searchQuery });
+  const products = await productModel
+    .find({ ...searchQuery })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+  res.json({
+    products,
+    totalProduct,
+    page,
   });
+});
 
-const updateProduct = asyncHandle(async(req,res)=>{
-    const { nameProduct,
-      imageProduct,
-      descriptionProduct,
-      quantityProduct,
-      weightProduct,user} = req.body;
-      const id = req.params.id;
-      const products = await productModel.findOne({_id:id, user:user});
-      if(products){
-        products.nameProduct = nameProduct||products.nameProduct;
-        products.imageProduct= imageProduct||products.imageProduct;
-        products.descriptionProduct= descriptionProduct||products.descriptionProduct;
-        products.quantityProduct= quantityProduct||products.quantityProduct;
-        products.weightProduct= weightProduct||products.weightProduct;
-        const updateProduct = await products.save();
+const updateProduct = asyncHandle(async (req, res) => {
+  const { nameProduct,
+    imageProduct,
+    descriptionProduct,
+    quantityProduct,
+    weightProduct, user } = req.body;
+  const id = req.params.id;
+  const products = await productModel.findOne({ _id: id, user: user });
+  if (products) {
+    products.nameProduct = nameProduct || products.nameProduct;
+    products.imageProduct = imageProduct || products.imageProduct;
+    products.descriptionProduct = descriptionProduct || products.descriptionProduct;
+    products.quantityProduct = quantityProduct || products.quantityProduct;
+    products.weightProduct = weightProduct || products.weightProduct;
+    const updateProduct = await products.save();
 
-        res.status(200).json({
-          nameProduct: updateProduct.nameProduct,
-          imageProduct: updateProduct.imageProduct,
-          descriptionProduct: updateProduct.descriptionProduct,
-          quantityProduct: updateProduct.quantityProduct,
-          weightProduct: updateProduct.weightProduct,
-        })
-      }else {
-        res.status(401);
-        throw new Error("Product not found");
-      }
+    res.status(200).json({
+      nameProduct: updateProduct.nameProduct,
+      imageProduct: updateProduct.imageProduct,
+      descriptionProduct: updateProduct.descriptionProduct,
+      quantityProduct: updateProduct.quantityProduct,
+      weightProduct: updateProduct.weightProduct,
+    })
+  } else {
+    res.status(401);
+    throw new Error("Product not found");
+  }
 })
 
 const deleteProduct = asyncHandle(async (req, res) => {
@@ -101,4 +100,4 @@ const deleteProduct = asyncHandle(async (req, res) => {
     throw new Error("Product can't found");
   }
 });
-module.exports = {postProduct,getProducts,updateProduct,deleteProduct};
+module.exports = { postProduct, getProducts, updateProduct, deleteProduct };
