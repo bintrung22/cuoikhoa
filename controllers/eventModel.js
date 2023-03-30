@@ -3,18 +3,22 @@ const eventModel = require("../models/eventModel");
 const productModel = require('../models/productModel');
 
 const createEvent = asyncHandle(async(req,res)=>{
-    const {titleEvent, imageEvent,descriptionEvent,dateStart,dateEnd,user} = req.body;
-    const event = await eventModel.create({titleEvent, imageEvent,descriptionEvent,dateStart,dateEnd,user});
+  // lúc có token rồi thì bỏ organizer là được
+    let {eventTitle, eventItems,eventDescription,createdAt,imageList,location ,organizer } = req.body;
+    const item = eventItems.split(",")
+    eventItems = item;
+    const event = await eventModel.create({eventTitle, eventItems,eventDescription,createdAt,imageList,location ,organizer});
     if (event) {
         res
           .status(200)
           .json({
-            titleEvent: event.titleEvent,
-            imageEvent: event.imageEvent,
-            descriptionEvent: event.descriptionEvent,
-            dateStart: event.dateStart,
-            dateEnd: event.dateEnd,
-            user:event.user 
+            eventTitle: event.eventTitle,
+            eventItems: event.eventItems,
+            eventDescription: event.eventDescription,
+            createdAt: event.createdAt,
+            imageList: event.imageList,
+            organizer:event.organizer,
+            location:event.location
     }      );
       } else {
         res.status(401);

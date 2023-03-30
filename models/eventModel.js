@@ -2,15 +2,13 @@
 const mongoose = require("mongoose");
 
 const eventSchema = mongoose.Schema({
-  titleEvent: { type: String, require: true },
-  imageEvent: [{ type: String, require: true }],
-  descriptionEvent: { type: String, require: true,default:0 },
-  supporter: { type: Number, require: true },
-  dateStart: { type:Date, require:true, min:Date.now},
-  dateEnd: { type:Date, require:true},
-  donation: [{type: mongoose.Schema.Types.ObjectId, required: true, ref: "Product" }],
-  user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
-  status: {type:Boolean, require:true, default:true}
+  eventTitle:{type:String, require:true},
+  eventItems:[{type:String, require:true}],
+  eventDescription:{type:String, require:true},
+  createdAt:{type:Date, require:true},
+  imageList:[{type:String, require:true}],
+  organizer:{type: mongoose.Schema.Types.ObjectId, required: true, ref: "User"},
+  location:{type:String, require:true}
 });
 
 const Event = mongoose.model("Event", eventSchema);
