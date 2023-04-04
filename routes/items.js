@@ -12,7 +12,7 @@ router.post('/create', createNewItem);
 //Hiển thị tất cả thông tin của tất cả item trên database
 router.get('/all', getAllItems);
 
-//QUAN TRỌNG - Chưa phân trang item khi get và query theo keyword!
+//QUAN TRỌNG - Chưa phân trang item khi get và query theo keyword
 
 //3.Hiển thị item theo ID - Done
 //Hiển thị tất cả thông tin của item theo id
