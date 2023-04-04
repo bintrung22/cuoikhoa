@@ -10,22 +10,25 @@ const itemSchema = mongoose.Schema({
         default: Date.now
     },
     description: {
+        type: String
+    },
+    imageList: [{
         type: String,
         required: true
-    },
-    imageList: {
-        type: String,
-        required: true
-    },
+    }],
     isTrade: {
-        type: String,
-        default: null
+        type: Boolean,
+        default: true
     },
-    // user: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     required: true,
-    //     ref: 'User'
-    // }
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
+    isRemoved: {
+        type: Boolean,
+        default: false
+    }
 });
 
 const Item = mongoose.model('Item', itemSchema);

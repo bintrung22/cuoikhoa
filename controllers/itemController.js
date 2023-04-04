@@ -3,17 +3,21 @@ const itemModel = require('../models/itemModel');
 
 //1.Thêm item mới
 const createNewItem = asyncHandler(async (req, res) => {
-    const { itemName, description, imageList } = req.body;
-    const newItem = await itemModel.create({ itemName, description, imageList });
+    const { itemName, description, imageList, owner } = req.body;
+    const newItem = await itemModel.create({ itemName, description, imageList, owner });
     if (newItem) {
-        res.status(200).json({
-            _id: newItem._id,
-            itemName: newItem.itemName,
-            createdAt: newItem.createdAt,
-            description: newItem.description,
-            imageList: newItem.imageList,
-            isTrade: newItem.isTrade
-        });
+        res.status(200).json(newItem
+            // {
+            //     _id: newItem._id,
+            //     itemName: newItem.itemName,
+            //     createdAt: newItem.createdAt,
+            //     description: newItem.description,
+            //     imageList: newItem.imageList,
+            //     isTrade: newItem.isTrade,
+            //     owner: newItem.owner,
+            //     isRemoved: newItem.isRemoved
+            // }
+        );
     } else {
         res.status(400);
         throw new Error("CREATE NEW ITEM FAILED!");
@@ -39,22 +43,19 @@ const getItemById = asyncHandler(async (req, res) => {
 
 //4.Cập nhật thông tin item theo ID
 const updateItem = asyncHandler(async (req, res) => {
-    const { itemName, description, imageList } = req.body;
+    const { itemName, description, imageList, isTrade, isRemoved, owner } = req.body;
     const item = await itemModel.findById(req.params.id);
     if (item) {
         item.itemName = itemName || item.itemName;
         item.description = description || item.description;
         item.imageList = imageList || item.imageList;
+        item.isTrade = isTrade || item.isTrade;
+        item.isRemoved = isRemoved || item.isRemoved;
+        item.owner = owner || item.owner;
+
         const updatedItem = await item.save();
 
-        res.status(200).json({
-            _id: updatedItem._id,
-            itemName: updatedItem.itemName,
-            createdAt: updatedItem.createdAt,
-            description: updatedItem.description,
-            imageList: updatedItem.imageList,
-            isTrade: updatedItem.isTrade
-        })
+        res.status(200).json(updatedItem);
     } else {
         res.status(401);
         throw new Error("UPDATE ITEM FAILED!");
@@ -63,7 +64,16 @@ const updateItem = asyncHandler(async (req, res) => {
 
 //5.Xoá (Update) thông tin item theo ID
 const deleteItem = asyncHandler(async (req, res) => {
+    const item = await itemModel.findById(req.params.id);
+    if (item) {
+        item.isRemoved = true;
+        const updatedItem = await item.save();
 
+        res.status(200).json(updatedItem);
+    } else {
+        res.status(401);
+        throw new Error("UPDATE ITEM FAILED!");
+    }
 });
 
 module.exports = {
