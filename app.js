@@ -8,10 +8,15 @@ const { errorMiddleware } = require('./middleware/errorMiddleware');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+<<<<<<< HEAD
 var productsRouter = require('./routes/product');
 var eventRouter = require('./routes/events');
 var requestRouter = require('./routes/request')
 
+=======
+var eventRouter = require('./routes/events')
+let itemsRouter = require('./routes/items');
+>>>>>>> origin/toan_dev
 
 var app = express();
 connectDB();
@@ -28,9 +33,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/products', productsRouter);
 app.use('/events', eventRouter);
+<<<<<<< HEAD
 app.use('/request', requestRouter);
+=======
+app.use('/items', itemsRouter);
+>>>>>>> origin/toan_dev
 
 
 // catch 404 and forward to error handler
