@@ -3,7 +3,9 @@ const itemModel = require('../models/itemModel');
 
 //1.Thêm item mới
 const createNewItem = asyncHandler(async (req, res) => {
-    const { itemName, description, imageList, owner } = req.body;
+    const { itemName, description, imageList } = req.body;
+    // console.log(req);
+    const owner = req.user.id;
     const newItem = await itemModel.create({ itemName, description, imageList, owner });
     if (newItem) {
         res.status(200).json(newItem
