@@ -10,10 +10,10 @@ const createEvent = asyncHandle(async (req, res) => {
     // createdAt,
     imageList,
     location,
-    
+
   } = req.body;
   const organizer = req.user.id;
-  
+
   const item = eventItems[0].split(",");
   eventItems = item;
   console.log(item)
@@ -52,7 +52,7 @@ const updateEvent = asyncHandle(async (req, res) => {
   } = req.body;
   const organizer = req.user.id;
   const id = req.params.id;
-  const event = await eventModel.findOne({ _id:id, organizer:organizer });
+  const event = await eventModel.findOne({ _id: id, organizer: organizer });
   if (event) {
     event.eventTitle = eventTitle || event.eventTitle;
     event.eventItems = eventItems || event.eventItems;
@@ -74,9 +74,9 @@ const updateEvent = asyncHandle(async (req, res) => {
   }
 });
 
-const deleteEvent = asyncHandle(async(req,res)=>{
-  const event = await eventModel.findByIdAndDelete({_id:req.params.id});
-  if(event){
+const deleteEvent = asyncHandle(async (req, res) => {
+  const event = await eventModel.findByIdAndDelete({ _id: req.params.id });
+  if (event) {
     res.status(200).json({
       message: "đã xóa thành công",
       id: event.id
@@ -87,42 +87,42 @@ const deleteEvent = asyncHandle(async(req,res)=>{
   }
 });
 
-const getEventAll = asyncHandle(async(req,res)=>{
+const getEventAll = asyncHandle(async (req, res) => {
   const event = await eventModel.find();
-  if(event){
+  if (event) {
     res.status(200).json({
-     event
+      event
     })
-  }else {
+  } else {
     res.status(401);
     throw new Error("kho co event nao het");
   }
 });
 
-const getEventTotal = asyncHandle(async(req,res)=>{
-  const event = await eventModel.find({_id:req.params.id});
-  if(event){
+const getEventTotal = asyncHandle(async (req, res) => {
+  const event = await eventModel.find({ _id: req.params.id });
+  if (event) {
     res.status(200).json({
-     event
+      event
     })
-  }else {
+  } else {
     res.status(401);
     throw new Error("kho co event nao het");
   }
 });
 
-const getEvent=(async(req,res)=>{
+const getEvent = (async (req, res) => {
   // co user thi thay no bang user la duoc
   const organizer = req.user.id;
-  const event = await eventModel.find({organizer:organizer});
-  if(event){
+  const event = await eventModel.find({ organizer: organizer });
+  if (event) {
     res.status(200).json({
-     event
+      event
     })
-  }else {
+  } else {
     res.status(401);
     throw new Error("kho co event nao het");
   }
 });
 
-module.exports = { createEvent,getEventTotal,updateEvent, deleteEvent,getEventAll,getEvent };
+module.exports = { createEvent, getEventTotal, updateEvent, deleteEvent, getEventAll, getEvent };
