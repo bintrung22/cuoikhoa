@@ -1,5 +1,3 @@
-
-
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -11,7 +9,9 @@ const { errorMiddleware } = require('./middleware/errorMiddleware');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/product');
-var eventRouter = require('./routes/events')
+var eventRouter = require('./routes/events');
+var requestRouter = require('./routes/request')
+
 
 var app = express();
 connectDB();
@@ -30,6 +30,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
 app.use('/events', eventRouter);
+app.use('/request', requestRouter);
 
 
 // catch 404 and forward to error handler

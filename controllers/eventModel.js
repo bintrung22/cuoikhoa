@@ -100,6 +100,8 @@ const getEventAll = asyncHandle(async(req,res)=>{
 });
 
 const getEvent=(async(req,res)=>{
+  // co user thi thay no bang user la duoc
+  
   const event = await eventModel.find({organizer:req.params.id});
   if(event){
     res.status(200).json({
