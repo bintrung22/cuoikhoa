@@ -1,18 +1,21 @@
 const asyncHandle = require("express-async-handler");
-const productModel = require("../models/productModel");
+const itemModel = require("../models/itemModel");
 const requestModel = require("../models/requestModel");
 const userModel = require("../models/userModel");
 
 const request = asyncHandle(async (req, res) => {
-  let { userRequest, productRequest, productReceive, message } = req.body;
-
-  const product1 = await productModel.findById({ _id: productRequest });
-  const product2 = await productModel.findById({ _id: productReceive });
-  let userReceive = product2.user;
-  if (
+  let { productRequest, productReceive, message } = req.body;
+  /// thay userrequest voi req.user._id
+  const userRequest = req.user._id;
+  const product1 = await itemModel.findOne({ _id: productRequest, owner:userRequest });
+  const product2 = await itemModel.findById({ _id: productReceive });
+  let userReceive = product2.owner;
+  console.log( product1 !== product2)
+  if (product1&& product2&&
     product1.isTrade === true &&
     product2.isTrade === true &&
-    product1.user != userReceive
+    userRequest != userReceive &&
+    productRequest != productReceive
   ) {
     const request = await requestModel.create({
       userRequest,
@@ -53,10 +56,10 @@ const replyRequest = asyncHandle(async (req, res) => {
     request.updateDate = Date.now();
     let update = await request.save();
     if (update && update.status === "accept") {
-      let product1 = await productModel.findById({
+      let product1 = await itemModel.findById({
         _id: update.productReceive,
       });
-      let product2 = await productModel.findById({
+      let product2 = await itemModel.findById({
         _id: update.productRequest,
       });
       product1.isTrade = false;

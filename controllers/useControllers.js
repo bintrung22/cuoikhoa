@@ -9,7 +9,7 @@ const SECRET_KEY = process.env.SECRET_KEY
 const registerUser = asyncHandle(async (req, res) => {
   // xu ly co loi trong controller, ban loi ra error middleware và trả lỗi dạng json về cho user
   const { name, email, password } = req.body;
-
+  console.log(req.body)
   // 1. Kiem tra xem user da dang ky trong database chua
   const userExists = await userModel.findOne({ email });
   if (userExists) {
@@ -20,10 +20,7 @@ const registerUser = asyncHandle(async (req, res) => {
   const newUser = await userModel.create({ name, email, password });
   if (newUser) {
     res.status(200).json({
-      _id: newUser._id,
-      name: newUser.name,
-      email: newUser.email,
-      isAdmin: newUser.isAdmin,
+      newUser,
       token: jwt.sign({id: newUser._id}, SECRET_KEY, {
         expiresIn: '1d'
       })

@@ -8,7 +8,7 @@ const requestSchema = mongoose.Schema({
     status: { type:String, required: true, default:"pending" },
     message: { type: String, required: true },
     requestDate: { type:Date, default:Date.now()},
-    updateDate: { type: Date, required: true },
+    updateDate: { type: Date, required: false },
 
 });
 

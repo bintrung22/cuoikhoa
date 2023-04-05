@@ -1,15 +1,16 @@
 var express = require("express");
 var router = express.Router();
 const {  request, deleteRequest,getReceive,getRequest,replyRequest} = require("../controllers/requestController");
+const { protect } = require("../middleware/authMiddleware");
 // đăng sp
-router.post("/", request);
+router.post("/",protect, request);
 
-router.put("/:id", replyRequest);
+router.put("/:id",protect, replyRequest);
 
-router.get("/request", getRequest);
+router.get("/request",protect, getRequest);
 
-router.get("/receive", getReceive);
+router.get("/receive",protect, getReceive);
 
-router.delete("/id",deleteRequest)
+router.delete("/id",protect,deleteRequest)
 
 module.exports = router;
