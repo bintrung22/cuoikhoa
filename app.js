@@ -7,7 +7,7 @@ const connectDB = require('./config/database');
 const { errorMiddleware } = require('./middleware/errorMiddleware');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+let usersRouter = require('./routes/users');
 var eventRouter = require('./routes/events')
 let itemsRouter = require('./routes/items');
 

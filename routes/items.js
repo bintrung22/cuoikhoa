@@ -1,5 +1,10 @@
 let express = require('express');
-const { getAllItems, createNewItem, getItemById, updateItem, deleteItem } = require('../controllers/itemController');
+const {
+    getAllItems,
+    createNewItem,
+    getItemById,
+    updateItem,
+    deleteItem } = require('../controllers/itemController');
 let router = express.Router();
 
 //1.Thêm item mới - Done

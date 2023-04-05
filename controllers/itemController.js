@@ -66,6 +66,7 @@ const updateItem = asyncHandler(async (req, res) => {
 const deleteItem = asyncHandler(async (req, res) => {
     const item = await itemModel.findById(req.params.id);
     if (item) {
+        item.isTrade = false;
         item.isRemoved = true;
         const updatedItem = await item.save();
 
