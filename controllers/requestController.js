@@ -7,11 +7,11 @@ const request = asyncHandle(async (req, res) => {
   let { productRequest, productReceive, message } = req.body;
   /// thay userrequest voi req.user._id
   const userRequest = req.user._id;
-  const product1 = await itemModel.findOne({ _id: productRequest, owner:userRequest });
+  const product1 = await itemModel.findOne({ _id: productRequest, owner: userRequest });
   const product2 = await itemModel.findById({ _id: productReceive });
   let userReceive = product2.owner;
-  console.log( product1 !== product2)
-  if (product1&& product2&&
+  console.log(product1 !== product2)
+  if (product1 && product2 &&
     product1.isTrade === true &&
     product2.isTrade === true &&
     userRequest != userReceive &&
@@ -81,44 +81,43 @@ const replyRequest = asyncHandle(async (req, res) => {
   }
 });
 
-const getRequest = asyncHandle(async(req,res)=>{
-    const request = await requestModel.findById({userRequest:req.user._id});
-    if(request){
-        res.status(200);
-        res.json({
-            request
-        })
-    }else{
-        res.status(400);
-        throw new Error("khong the lay request");
-    }
+const getRequest = asyncHandle(async (req, res) => {
+  const request = await requestModel.findById({ userRequest: req.user._id });
+  if (request) {
+    res.status(200);
+    res.json({
+      request
+    })
+  } else {
+    res.status(400);
+    throw new Error("khong the lay request");
+  }
 })
-const getReceive = asyncHandle(async(req,res)=>{
-    const receive = await requestModel.findById({userReceive:req.user._id});
-    if(receive){
-        res.status(200);
-        res.json({
-            receive
-        })
-    }else{
-        res.status(400);
-        throw new Error("khong the lay receive");
-    }
-})
-
-const deleteRequest = asyncHandle(async(req,res)=>{
-    const deleteRequest = await requestModel.findOneAndDelete({_id:req.params.id});
-    if(deleteRequest)
-    {
-        res.status(200);
-        res.json({
-            message: "da xoa thanh cong",
-            deleteRequest
-        })
-    }else{
-        res.status(404);
-        throw new Error("can't delete request");
-    }
+const getReceive = asyncHandle(async (req, res) => {
+  const receive = await requestModel.findById({ userReceive: req.user._id });
+  if (receive) {
+    res.status(200);
+    res.json({
+      receive
+    })
+  } else {
+    res.status(400);
+    throw new Error("khong the lay receive");
+  }
 })
 
-module.exports = { request, deleteRequest,getReceive,getRequest,replyRequest };
+const deleteRequest = asyncHandle(async (req, res) => {
+  const deleteRequest = await requestModel.findOneAndDelete({ _id: req.params.id });
+  if (deleteRequest) {
+    res.status(200);
+    res.json({
+      message: "da xoa thanh cong",
+      deleteRequest
+    })
+  } else {
+    res.status(404);
+    throw new Error("can't delete request");
+  }
+})
+
+module.exports = { request, deleteRequest, getReceive, getRequest, replyRequest };
