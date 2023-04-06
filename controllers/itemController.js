@@ -45,9 +45,10 @@ const getItemById = asyncHandler(async (req, res) => {
 
 //4.Cập nhật thông tin item theo ID
 const updateItem = asyncHandler(async (req, res) => {
+    const loggedInUserId = req.user.id;
     const { itemName, description, imageList, isTrade, isRemoved, owner } = req.body;
     const item = await itemModel.findById(req.params.id);
-    if (item) {
+    if (item && loggedInUserId == item.owner) {
         item.itemName = itemName || item.itemName;
         item.description = description || item.description;
         item.imageList = imageList || item.imageList;
