@@ -1,13 +1,18 @@
 let express = require('express');
-const { getAllItems, createNewItem, getItemById, updateItem, deleteItem } = require('../controllers/itemController');
-const { protect } = require('../middleware/authMiddleware');
+const {
+    getAllItems,
+    createNewItem,
+    getItemById,
+    updateItem,
+    deleteItem } = require('../controllers/itemController');
+const { isProtect } = require('../middleware/authMiddleware');
 let router = express.Router();
 
 //1.Thêm item mới - Done
 //Sau khi thêm item trả về tất cả thông tin item vừa thêm
 //Hiện tại đang gặp lỗi khi thêm imageList có thể thêm mảng rỗng []
 //Nhưng giá trị từng phần tử trong mảng không được rỗng
-router.post('/create', protect,createNewItem);
+router.post('/create', isProtect, createNewItem);
 
 //2.Hiển thị tất cả item - Done
 //Hiển thị tất cả thông tin của tất cả item trên database
@@ -23,10 +28,10 @@ router.get('/:id', getItemById);
 //Cho chỉnh sửa tất cả các field của item - trừ _id của item
 //Cần xem xét về việc không cho người dùng sửa owner?
 //Gặp lỗi khi sử dụng postman boolean update về false cần ""
-router.put('/update/:id', protect, updateItem,);
+router.put('/update/:id', isProtect, updateItem,);
 
 //5.Xoá (Update) thông tin item theo ID - Done
 //Set field isRemoved = true 
-router.put('/delete/:id',protect, deleteItem);
+router.put('/delete/:id', isProtect, deleteItem);
 
 module.exports = router;

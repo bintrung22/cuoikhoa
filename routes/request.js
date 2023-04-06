@@ -1,16 +1,16 @@
 var express = require("express");
 var router = express.Router();
-const {  request, deleteRequest,getReceive,getRequest,replyRequest} = require("../controllers/requestController");
-const { protect } = require("../middleware/authMiddleware");
+const { request, deleteRequest, getReceive, getRequest, replyRequest } = require("../controllers/requestController");
+const { isProtect } = require("../middleware/authMiddleware");
 // đăng sp
-router.post("/",protect, request);
+router.post("/", isProtect, request);
 
-router.put("/:id",protect, replyRequest);
+router.put("/:id", isProtect, replyRequest);
 
-router.get("/request",protect, getRequest);
+router.get("/request", isProtect, getRequest);
 
-router.get("/receive",protect, getReceive);
+router.get("/receive", isProtect, getReceive);
 
-router.delete("/id",protect,deleteRequest)
+router.delete("/id", isProtect, deleteRequest)
 
 module.exports = router;
