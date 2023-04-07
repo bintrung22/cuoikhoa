@@ -10,6 +10,7 @@ const SECRET_KEY = process.env.SECRET_KEY
 const registerUser = asyncHandle(async (req, res) => {
   const { name, email, password, linkContact, phoneNumber } = req.body;
   //1.Kiểm tra user đã tồn tại trong database hay chưa = email
+  
   const userExists = await userModel.findOne({ email });
   if (userExists) {
     res.status(400);
