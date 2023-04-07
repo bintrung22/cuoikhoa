@@ -7,6 +7,7 @@ const {
     deleteItem } = require('../controllers/itemController');
 const { isProtect } = require('../middleware/authMiddleware');
 let router = express.Router();
+const cors = require('cors');
 
 //1.Thêm item mới - Done
 //Sau khi thêm item trả về tất cả thông tin item vừa thêm
