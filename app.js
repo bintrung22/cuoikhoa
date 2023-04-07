@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const connectDB = require('./config/database');
 const { errorMiddleware } = require('./middleware/errorMiddleware');
+const cors = require('cors');
 
 var indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
@@ -18,6 +19,8 @@ connectDB();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+app.use(cors());
 
 app.use(logger('dev'));
 app.use(express.json());
