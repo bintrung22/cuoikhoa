@@ -18,7 +18,7 @@ router.post("/register", registerUser);
 router.post("/login", authLogin);
 
 //3.Lấy thông tin user
-router.get("/profile", isProtect, getUserProfile);
+router.get("/profile/:id", getUserProfile);
 
 //4.Cập nhật thông tin user
 router.put("/update", isProtect, updateUserProfile);

@@ -8,7 +8,7 @@ const SECRET_KEY = process.env.SECRET_KEY
 
 //1.Đăng ký
 const registerUser = asyncHandle(async (req, res) => {
-  const { name, email, password, linkContact, phoneNumber } = req.body;
+  const { name, email, password, linkContact, phoneNumber,address } = req.body;
   //1.Kiểm tra user đã tồn tại trong database hay chưa = email
   
   const userExists = await userModel.findOne({ email });
@@ -18,7 +18,7 @@ const registerUser = asyncHandle(async (req, res) => {
   }
   //2.Lưu thông tin người dùng vào database
   //Sau khi đăng ký thành công trả về thông tin người dùng - Lưu ý không trả về password
-  const newUser = await userModel.create({ name, email, password, linkContact, phoneNumber });
+  const newUser = await userModel.create({ name, email, password, linkContact, phoneNumber,address });
   if (newUser) {
     res.status(200).json({
       _id: newUser._id,
@@ -28,7 +28,8 @@ const registerUser = asyncHandle(async (req, res) => {
       phoneNumber: phoneNumber,
       isAdmin: newUser.isAdmin,
       status: newUser.status,
-      createdAt: newUser.createdAt
+      createdAt: newUser.createdAt,
+      address:newUser.address
     });
   } else {
     res.status(400);
@@ -52,6 +53,7 @@ const authLogin = asyncHandle(async (req, res) => {
         linkContact: user.linkContact,
         phoneNumber: user.phoneNumber,
         isAdmin: user.isAdmin,
+        address:user.address,
         token: jwt.sign({ id: user._id }, SECRET_KEY, {
           expiresIn: '14d'
         })
@@ -69,7 +71,8 @@ const authLogin = asyncHandle(async (req, res) => {
 
 //3.Thông tin người dùng theo ID
 const getUserProfile = asyncHandle(async (req, res) => {
-  const user = await userModel.findById(req.user._id);
+
+  const user = await userModel.findById(req.params.id);
   if (user) {
     res.json({
       _id: user._id,
@@ -79,7 +82,8 @@ const getUserProfile = asyncHandle(async (req, res) => {
       phoneNumber: user.phoneNumber,
       isAdmin: user.isAdmin,
       status: user.status,
-      createdAt: user.createdAt
+      createdAt: user.createdAt,
+      address:user.address
     });
   } else {
     res.status(401);
@@ -95,6 +99,7 @@ const updateUserProfile = asyncHandle(async (req, res) => {
     user.name = req.body.name || user.name;
     user.linkContact = req.body.linkContact || user.linkContact;
     user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
+    user.address = req.body.address||user.address;
     if (req.body.password) {
       user.password = req.body.password
     }
@@ -108,7 +113,8 @@ const updateUserProfile = asyncHandle(async (req, res) => {
       phoneNumber: updatedUser.phoneNumber,
       isAdmin: updatedUser.isAdmin,
       status: updatedUser.status,
-      createdAt: updatedUser.createdAt
+      createdAt: updatedUser.createdAt,
+      address:updatedUser.address
     });
   } else {
     res.status(401);

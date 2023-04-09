@@ -3,7 +3,7 @@ const {
     getAllItems,
     createNewItem,
     getItemById,
-    updateItem,
+    updateItem,getAllItemsUser,
     deleteItem } = require('../controllers/itemController');
 const { isProtect } = require('../middleware/authMiddleware');
 let router = express.Router();
@@ -23,6 +23,9 @@ router.get('/all', getAllItems);
 //3.Hiển thị item theo ID - Done
 //Hiển thị tất cả thông tin của item theo id
 router.get('/:id', getItemById);
+
+router.get('/user/:id', getAllItemsUser);
+
 
 //4.Cập nhật thông tin item theo ID - Done
 //Cho chỉnh sửa tất cả các field của item - trừ _id của item
