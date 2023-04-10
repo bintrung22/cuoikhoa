@@ -90,9 +90,7 @@ const deleteEvent = asyncHandle(async (req, res) => {
 const getEventAll = asyncHandle(async (req, res) => {
   const event = await eventModel.find();
   if (event) {
-    res.status(200).json({
-      event
-    })
+    res.status(200).json(event)
   } else {
     res.status(401);
     throw new Error("kho co event nao het");

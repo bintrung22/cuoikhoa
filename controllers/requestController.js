@@ -82,24 +82,20 @@ const replyRequest = asyncHandle(async (req, res) => {
 });
 
 const getRequest = asyncHandle(async (req, res) => {
-  const request = await requestModel.findById({ userRequest: req.user._id });
+  const request = await requestModel.find({ userRequest: req.user._id });
   if (request) {
     res.status(200);
-    res.json({
-      request
-    })
+    res.json(request)
   } else {
     res.status(400);
     throw new Error("khong the lay request");
   }
 })
 const getReceive = asyncHandle(async (req, res) => {
-  const receive = await requestModel.findById({ userReceive: req.user._id });
+  const receive = await requestModel.find({ userReceive: req.user._id });
   if (receive) {
     res.status(200);
-    res.json({
-      receive
-    })
+    res.json(receive)
   } else {
     res.status(400);
     throw new Error("khong the lay receive");

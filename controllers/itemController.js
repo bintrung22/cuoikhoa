@@ -80,6 +80,36 @@ const deleteItem = asyncHandler(async (req, res) => {
     }
 });
 
+//6.Get Item theo keyword và phân trang
+const getItems = asyncHandler(async (req, res) => {
+    const pageSize = 10;
+    const page = Number(req.query.pageNumber) || 1;
+    const keyword = req.query.keyword;
+    const searchQuery = keyword ? { itemName: { $regex: keyword } } : {};
+    const totalItem = await itemModel.countDocuments({ ...searchQuery });
+    const items = await itemModel.find({ ...searchQuery }).limit(pageSize).skip(pageSize * (page - 1));
+    res.json({
+        items,
+        totalItem,
+        page
+    });
+})
+
+//7.Get Item theo ID owner
+const getItemsByOwner = asyncHandler(async (req, res) => {
+    const reqUserId = req.user.id
+    const owner = req.params.id;
+    const item = await itemModel.find({ owner: owner });
+    if (reqUserId == owner && item) {
+        res.status(200).json(item);
+    } else {
+        res.status(401);
+        throw new Error("ITEM NOT FOUND!");
+    }
+})
+
 module.exports = {
-    getAllItems, createNewItem, getItemById, updateItem, deleteItem
+    getAllItems, createNewItem, getItemById,
+    updateItem, deleteItem, getItems,
+    getItemsByOwner
 }
