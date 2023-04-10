@@ -4,7 +4,9 @@ const {
     createNewItem,
     getItemById,
     updateItem,getAllItemsUser,
-    deleteItem } = require('../controllers/itemController');
+    deleteItem,
+    getItems,
+    getItemsByOwner } = require('../controllers/itemController');
 const { isProtect } = require('../middleware/authMiddleware');
 let router = express.Router();
 
@@ -37,4 +39,9 @@ router.put('/update/:id', isProtect, updateItem,);
 //Set field isRemoved = true 
 router.put('/delete/:id', isProtect, deleteItem);
 
+//6.Get Items theo Keyword và có phân trang
+router.get('/', getItems);
+
+//7.Get ALL Items theo Owner
+router.get('/user/:id', isProtect, getItemsByOwner);
 module.exports = router;

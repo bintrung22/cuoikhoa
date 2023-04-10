@@ -18,7 +18,9 @@ const registerUser = asyncHandle(async (req, res) => {
   }
   //2.Lưu thông tin người dùng vào database
   //Sau khi đăng ký thành công trả về thông tin người dùng - Lưu ý không trả về password
-  const newUser = await userModel.create({ name, email, password, linkContact, phoneNumber,address });
+
+  const newUser = await userModel.create({ name, email, password, linkContact, phoneNumber, address, photoURL });
+
   if (newUser) {
     res.status(200).json({
       _id: newUser._id,
@@ -29,7 +31,8 @@ const registerUser = asyncHandle(async (req, res) => {
       isAdmin: newUser.isAdmin,
       status: newUser.status,
       createdAt: newUser.createdAt,
-      address:newUser.address
+      address:newUser.address,
+      photoURL: newUser.photoURL
     });
   } else {
     res.status(400);
@@ -54,6 +57,7 @@ const authLogin = asyncHandle(async (req, res) => {
         phoneNumber: user.phoneNumber,
         isAdmin: user.isAdmin,
         address:user.address,
+        photoURL: user.photoURL,
         token: jwt.sign({ id: user._id }, SECRET_KEY, {
           expiresIn: '14d'
         })
@@ -64,8 +68,9 @@ const authLogin = asyncHandle(async (req, res) => {
       throw new Error('Invalid email or password!');
     }
   } else {
+    //Nếu sai - thông báo lỗi
     res.status(401);
-    throw new Error("User does not exists!")
+    throw new Error('Invalid email or password!');
   }
 });
 
@@ -83,7 +88,8 @@ const getUserProfile = asyncHandle(async (req, res) => {
       isAdmin: user.isAdmin,
       status: user.status,
       createdAt: user.createdAt,
-      address:user.address
+      address:user.address,
+      photoURL: user.photoURL
     });
   } else {
     res.status(401);
@@ -100,6 +106,7 @@ const updateUserProfile = asyncHandle(async (req, res) => {
     user.linkContact = req.body.linkContact || user.linkContact;
     user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
     user.address = req.body.address||user.address;
+    user.photoURL = req.body.photoURL || user.photoURL;
     if (req.body.password) {
       user.password = req.body.password
     }
@@ -114,7 +121,8 @@ const updateUserProfile = asyncHandle(async (req, res) => {
       isAdmin: updatedUser.isAdmin,
       status: updatedUser.status,
       createdAt: updatedUser.createdAt,
-      address:updatedUser.address
+      address:updatedUser.address,
+      photoURL: updatedUser.photoURL
     });
   } else {
     res.status(401);

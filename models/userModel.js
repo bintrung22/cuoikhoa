@@ -43,6 +43,9 @@ const userSchema = mongoose.Schema({
   address:{
     type: String,
     require: true,
+},
+  photoURL: {
+    type: String
   }
 });
 

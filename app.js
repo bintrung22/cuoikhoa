@@ -12,6 +12,7 @@ var eventRouter = require("./routes/events");
 let itemsRouter = require("./routes/items");
 let requestRouter = require("./routes/request");
 
+
 var app = express();
 connectDB();
 const cors = require("cors");
@@ -27,7 +28,9 @@ app.use(cors(corsOptions));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
+
 app.use(logger("dev"));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
