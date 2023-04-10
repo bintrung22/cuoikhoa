@@ -8,8 +8,9 @@ const SECRET_KEY = process.env.SECRET_KEY
 
 //1.Đăng ký
 const registerUser = asyncHandle(async (req, res) => {
-  const { name, email, password, linkContact, phoneNumber } = req.body;
+  const { name, email, password, linkContact, phoneNumber,address } = req.body;
   //1.Kiểm tra user đã tồn tại trong database hay chưa = email
+  
   const userExists = await userModel.findOne({ email });
   if (userExists) {
     res.status(400);
@@ -17,7 +18,9 @@ const registerUser = asyncHandle(async (req, res) => {
   }
   //2.Lưu thông tin người dùng vào database
   //Sau khi đăng ký thành công trả về thông tin người dùng - Lưu ý không trả về password
-  const newUser = await userModel.create({ name, email, password, linkContact, phoneNumber, photoURL });
+
+  const newUser = await userModel.create({ name, email, password, linkContact, phoneNumber, address, photoURL });
+
   if (newUser) {
     res.status(200).json({
       _id: newUser._id,
@@ -28,6 +31,7 @@ const registerUser = asyncHandle(async (req, res) => {
       isAdmin: newUser.isAdmin,
       status: newUser.status,
       createdAt: newUser.createdAt,
+      address:newUser.address,
       photoURL: newUser.photoURL
     });
   } else {
@@ -41,21 +45,28 @@ const authLogin = asyncHandle(async (req, res) => {
   const { email, password } = req.body;
   const user = await userModel.findOne({ email });
   //Kiểm tra email -> không tồn tại trong database -> báo lỗi
-  //Kiểm tra email -> tồn tại -> kiểm tra email và password gửi lên
-  if (user && await bcrypt.compare(password, user.password)) {
-    //Nếu đúng - trả về Token + thông tin (không bao gồm password)
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      linkContact: user.linkContact,
-      phoneNumber: user.phoneNumber,
-      photoURL: user.photoURL,
-      isAdmin: user.isAdmin,
-      token: jwt.sign({ id: user._id }, SECRET_KEY, {
-        expiresIn: '14d'
-      })
-    });
+  if (user) {
+    //Kiểm tra email -> tồn tại -> kiểm tra email và password gửi lên
+    if (user && await bcrypt.compare(password, user.password)) {
+      //Nếu đúng - trả về Token + thông tin (không bao gồm password)
+      res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        linkContact: user.linkContact,
+        phoneNumber: user.phoneNumber,
+        isAdmin: user.isAdmin,
+        address:user.address,
+        photoURL: user.photoURL,
+        token: jwt.sign({ id: user._id }, SECRET_KEY, {
+          expiresIn: '14d'
+        })
+      });
+    } else {
+      //Nếu sai - thông báo lỗi
+      res.status(401);
+      throw new Error('Invalid email or password!');
+    }
   } else {
     //Nếu sai - thông báo lỗi
     res.status(401);
@@ -65,7 +76,8 @@ const authLogin = asyncHandle(async (req, res) => {
 
 //3.Thông tin người dùng theo ID
 const getUserProfile = asyncHandle(async (req, res) => {
-  const user = await userModel.findById(req.user._id);
+
+  const user = await userModel.findById(req.params.id);
   if (user) {
     res.json({
       _id: user._id,
@@ -76,6 +88,7 @@ const getUserProfile = asyncHandle(async (req, res) => {
       isAdmin: user.isAdmin,
       status: user.status,
       createdAt: user.createdAt,
+      address:user.address,
       photoURL: user.photoURL
     });
   } else {
@@ -92,6 +105,7 @@ const updateUserProfile = asyncHandle(async (req, res) => {
     user.name = req.body.name || user.name;
     user.linkContact = req.body.linkContact || user.linkContact;
     user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
+    user.address = req.body.address||user.address;
     user.photoURL = req.body.photoURL || user.photoURL;
     if (req.body.password) {
       user.password = req.body.password
@@ -107,6 +121,7 @@ const updateUserProfile = asyncHandle(async (req, res) => {
       isAdmin: updatedUser.isAdmin,
       status: updatedUser.status,
       createdAt: updatedUser.createdAt,
+      address:updatedUser.address,
       photoURL: updatedUser.photoURL
     });
   } else {

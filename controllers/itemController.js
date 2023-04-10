@@ -43,6 +43,16 @@ const getItemById = asyncHandler(async (req, res) => {
     }
 });
 
+const getAllItemsUser = asyncHandler(async (req, res) => {
+    const items = await itemModel.find({owner:req.params.id});
+    if (items) {
+        res.status(200).json(items);
+    } else {
+        res.status(401);
+        throw new Error("ITEM  NOT FOUND!");
+    }
+});
+
 //4.Cập nhật thông tin item theo ID
 const updateItem = asyncHandler(async (req, res) => {
     const loggedInUserId = req.user.id;
@@ -109,7 +119,5 @@ const getItemsByOwner = asyncHandler(async (req, res) => {
 })
 
 module.exports = {
-    getAllItems, createNewItem, getItemById,
-    updateItem, deleteItem, getItems,
-    getItemsByOwner
+    getAllItems, createNewItem, getItemById, updateItem, deleteItem,getAllItemsUser
 }

@@ -40,6 +40,10 @@ const userSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  address:{
+    type: String,
+    require: true,
+},
   photoURL: {
     type: String
   }
