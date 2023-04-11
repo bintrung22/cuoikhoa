@@ -8,9 +8,8 @@ const SECRET_KEY = process.env.SECRET_KEY
 
 //1.Đăng ký
 const registerUser = asyncHandle(async (req, res) => {
-  const { name, email, password, linkContact, phoneNumber,address } = req.body;
+  const { name, email, password, linkContact, phoneNumber, address, photoURL } = req.body;
   //1.Kiểm tra user đã tồn tại trong database hay chưa = email
-  
   const userExists = await userModel.findOne({ email });
   if (userExists) {
     res.status(400);
@@ -31,7 +30,7 @@ const registerUser = asyncHandle(async (req, res) => {
       isAdmin: newUser.isAdmin,
       status: newUser.status,
       createdAt: newUser.createdAt,
-      address:newUser.address,
+      address: newUser.address,
       photoURL: newUser.photoURL
     });
   } else {
@@ -56,7 +55,7 @@ const authLogin = asyncHandle(async (req, res) => {
         linkContact: user.linkContact,
         phoneNumber: user.phoneNumber,
         isAdmin: user.isAdmin,
-        address:user.address,
+        address: user.address,
         photoURL: user.photoURL,
         token: jwt.sign({ id: user._id }, SECRET_KEY, {
           expiresIn: '14d'
@@ -88,7 +87,7 @@ const getUserProfile = asyncHandle(async (req, res) => {
       isAdmin: user.isAdmin,
       status: user.status,
       createdAt: user.createdAt,
-      address:user.address,
+      address: user.address,
       photoURL: user.photoURL
     });
   } else {
@@ -105,7 +104,7 @@ const updateUserProfile = asyncHandle(async (req, res) => {
     user.name = req.body.name || user.name;
     user.linkContact = req.body.linkContact || user.linkContact;
     user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
-    user.address = req.body.address||user.address;
+    user.address = req.body.address || user.address;
     user.photoURL = req.body.photoURL || user.photoURL;
     if (req.body.password) {
       user.password = req.body.password
@@ -121,7 +120,7 @@ const updateUserProfile = asyncHandle(async (req, res) => {
       isAdmin: updatedUser.isAdmin,
       status: updatedUser.status,
       createdAt: updatedUser.createdAt,
-      address:updatedUser.address,
+      address: updatedUser.address,
       photoURL: updatedUser.photoURL
     });
   } else {

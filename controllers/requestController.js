@@ -6,10 +6,11 @@ const userModel = require("../models/userModel");
 const request = asyncHandle(async (req, res) => {
   let { productRequest, productReceive, message } = req.body;
   /// thay userrequest voi req.user._id
-  const userRequest = req.user._id;
+  const userRequest = String(req.user._id);
   const product1 = await itemModel.findOne({ _id: productRequest, owner: userRequest });
   const product2 = await itemModel.findById({ _id: productReceive });
-  let userReceive = product2.owner;
+  let userReceive = String(product2.owner);
+  const isEqual = userRequest === userReceive;
   console.log(product1 !== product2)
   if (product1 && product2 &&
     product1.isTrade === true &&
@@ -25,7 +26,7 @@ const request = asyncHandle(async (req, res) => {
       message,
     });
     if (request) {
-      res.json({
+      res.json(
         request,
         // userRequest: userRequest,
         // productRequest: productRequest,
@@ -35,7 +36,7 @@ const request = asyncHandle(async (req, res) => {
         // message: message,
         // requestDate: request.requestDate,
         // updateDate: request.updateDate,
-      });
+      );
     } else {
       res.status(404);
       throw new Error("khong the tao requset");

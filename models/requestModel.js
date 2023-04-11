@@ -9,7 +9,6 @@ const requestSchema = mongoose.Schema({
     message: { type: String, required: true },
     requestDate: { type: Date, default: Date.now() },
     updateDate: { type: Date, required: false },
-
 });
 
 const Request = mongoose.model("Request", requestSchema);
